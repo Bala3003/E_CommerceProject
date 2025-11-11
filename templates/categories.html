@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+  <h1 class="text-center mb-4">🛍️ By Category</h1>
+
+  <div class="row">
+    {% for cat in categories %}
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <a href="{% url 'category_detail' slug=cat.slug %}" class="text-decoration-none text-dark">
+
+            {% if cat.image %}
+              <img src="{{ cat.image.url }}" class="card-img-top" alt="{{ cat.name }}">
+            {% else %}
+              <div class="card-img-top d-flex align-items-center justify-content-center"
+                   style="height: 180px; background-color: #f0f0f0;">
+                <h4 class="text-muted">{{ cat.name }}</h4>
+              </div>
+            {% endif %}
+
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">{{ cat.name }}</h5>
+              {% if cat.description %}
+                <p class="card-text text-muted">{{ cat.description|truncatewords:15 }}</p>
+              {% endif %}
+                <a class="btn btn-category" href="{% url 'category_detail' slug=cat.slug %}">View Products</a>
+            </div>
+
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">No categories available yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

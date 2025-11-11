@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
+  <div class="card p-4 shadow-sm" style="max-width:700px; width:100%; border-radius:15px;">
+    <h2 class="text-center mb-4 fw-bold text-primary">👤 My Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      <!-- User Info Section -->
+      <div class="mb-4">
+        <h5 class="text-secondary mb-3">User Information</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Username</label>
+            {{ user_form.username }}
+            {% for err in user_form.username.errors %}
+              <div class="text-danger small">{{ err }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Email</label>
+            {{ user_form.email }}
+            {% for err in user_form.email.errors %}
+              <div class="text-danger small">{{ err }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <hr>
+      <!-- Profile Info Section -->
+      <div class="mb-3">
+        <h5 class="text-secondary mb-3">Profile Details</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Phone</label>
+            {{ profile_form.phone }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">City</label>
+            {{ profile_form.city }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">State</label>
+            {{ profile_form.state }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">PIN Code</label>
+            {{ profile_form.pin_code }}
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-semibold">Address</label>
+            {{ profile_form.address }}
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-semibold">Profile Picture</label>
+            {{ profile_form.avatar }}
+            {% if user.profile.avatar %}
+              <div class="mt-2">
+                <img src="{{ user.profile.avatar.url }}" alt="Profile Picture"
+                     class="rounded-circle border" style="width:90px; height:90px; object-fit:cover;">
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary w-50 py-2 fw-semibold">💾 Save Changes</button>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary w-50 py-2 mt-2">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

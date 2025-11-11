@@ -1,0 +1,35 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.egg-info/
+*.so
+
+# Virtualenv
+venv/
+env/
+djvenv/
+ENV/
+.Djenv/
+
+# IDE / Editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Django static/media
+/static/
+staticfiles/
+media/
+
+# Environment / secrets
+.env
+.env.*
+secrets.json
+
+# Byte-compiled / caches
+*.pyc
+*.pyo

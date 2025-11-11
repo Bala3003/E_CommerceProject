@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}E-Shop | Commerce{% endblock %}
+
+{% block content %}
+<style>
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #122b60, #091b49);
+  color: white;
+  text-align: center;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Gradient animation */
+@keyframes moveGradient {
+  0% { background: linear-gradient(135deg, #122b60, #091b49); }
+  50% { background: linear-gradient(135deg, #1b3a8a, #0a1d4f); }
+  100% { background: linear-gradient(135deg, #122b60, #091b49); }
+}
+.hero {
+  animation: moveGradient 8s ease infinite;
+}
+
+.hero h1, .hero p, .hero a {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s ease forwards;
+}
+.hero h1 { animation-delay: 0.2s; font-size: 3rem; }
+.hero p { animation-delay: 0.5s; font-size: 1.3rem; }
+.hero a { animation-delay: 0.8s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover button */
+.hero a.btn {
+  background-color: #f0b90b;
+  color: #000;
+  border-radius: 30px;
+  padding: 12px 30px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+.hero a.btn:hover {
+  background-color: #ffd84d;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  transform: scale(1.05);
+}
+
+/* Product preview */
+.featured-section {
+  background: #f8f9fa;
+  padding: 60px 0;
+}
+.featured-section h2 {
+  color: #122b60;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+</style>
+
+<!-- 🏠 Hero Section -->
+<section class="hero">
+  <h1 class="fw-bold display-4">💥 Welcome To E-Commerce shop ⚡</h1>
+  <p class="lead mt-3">💬Your one-stop destination for amazing products💬</p>
+  <a href="{% url 'categories' %}" class="btn btn-warning mt-4 px-4 py-2">Start Shopping</a>
+</section>
+<br>
+<section >
+    <h1 style="text-align: center; font-weight: bold"> 🏠 Featured Products </h1>
+    <br>
+    <a href="{% url 'products' %}" class="btn btn-warning mt-4 px-4 py-2" style="display:inline;background-color: #f4c013; color: black; font-weight: bold; border: none;
+     padding: 40px; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; margin-top: 50px;
+     font-size: 14px; position: relative;left:47%;transform:translateX(-50%);">Products</a>
+
+</section>
+{% endblock %}

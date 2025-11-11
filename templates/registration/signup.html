@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create an Account{% endblock %}
+
+{% block content %}
+<style>
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #f8f9fa;
+  }
+
+  .auth-card {
+    max-width: 480px;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+  }
+
+  .auth-card h2 {
+    text-align: center;
+    color: #122b60;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+    font-size: 15px;
+    margin-top: 5px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #122b60;
+  }
+
+  .btn-primary {
+    background-color: #122b60;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0e1f4d;
+    transform: translateY(-2px);
+  }
+
+  .text-center a {
+    color: #122b60;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .text-center a:hover {
+    text-decoration: underline;
+  }
+
+  .text-danger.small {
+    font-size: 0.85rem;
+  }
+</style>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>📝 Sign Up Form</h2>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        {{ form.username }}
+        {% for err in form.username.errors %}
+          <div class="text-danger small">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+        {% for err in form.email.errors %}
+          <div class="text-danger small">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        {{ form.password1 }}
+        {% for err in form.password1.errors %}
+          <div class="text-danger small">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        {{ form.password2 }}
+        {% for err in form.password2.errors %}
+          <div class="text-danger small">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3">SIGN UP</button>
+    </form>
+
+    <div class="text-center mt-3">
+      <small>Already have an account?
+        <a href="{% url 'login' %}">Login here</a>
+      </small>
+    </div>
+  </div>
+</div>
+{% endblock %}

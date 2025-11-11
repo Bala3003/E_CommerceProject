@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Checkout - E-Shop{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width:900px;">
+  <h2 class="mb-4 text-center" style="font-weight:700; color:#2c3e50; text-shadow:1px 1px 2px rgba(0,0,0,0.1);">🛒 Checkout</h2>
+
+  <div class="row g-4">
+    <!-- 🧾 Left Side: Form -->
+    <div class="col-md-6" style="background:#ffffff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:25px;">
+      <form method="post" action="{% url 'place_order' %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Full name</label>
+          <input name="full_name" value="{{ form.full_name }}" class="form-control" style="border-radius:8px; padding:10px;" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Phone Number</label>
+          <input type="text" name="phone" class="form-control" style="border-radius:8px; padding:10px;" required pattern="\d{10}" title="Enter 10-digit number only">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Address line 1</label>
+          <input name="address_line1" value="{{ form.address_line1 }}" class="form-control" style="border-radius:8px; padding:10px;" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">City</label>
+          <input name="city" value="{{ form.city }}" class="form-control" style="border-radius:8px; padding:10px;" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">State</label>
+          <input name="state" value="{{ form.state }}" class="form-control" style="border-radius:8px; padding:10px;">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Postal code</label>
+          <input name="postal_code" value="{{ form.postal_code }}" class="form-control" style="border-radius:8px; padding:10px;">
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit"
+            class="btn btn-primary"
+            style="background: linear-gradient(135deg,#007bff,#6610f2); border:none; padding:12px 35px; font-weight:600; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); transition:0.3s;">
+            🛍️ Place My Order
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 💳 Right Side: Order Summary -->
+    <div class="col-md-6">
+      <div style="background:#ffffff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:25px;">
+        <h5 style="font-weight:600; color:#2c3e50;">Order Summary</h5>
+        <ul class="list-group mb-3 mt-3">
+          {% for it in items %}
+          <li class="list-group-item d-flex justify-content-between align-items-center" style="border:none; border-bottom:1px solid #eee;">
+            <div>
+              <strong style="color:#333;">{{ it.product.name }}</strong><br>
+              <small class="text-muted">₹{{ it.product.price }} × {{ it.quantity }}</small>
+            </div>
+            <span style="font-weight:600; color:#007bff;">₹{{ it.subtotal }}</span>
+          </li>
+          {% endfor %}
+          <li class="list-group-item d-flex justify-content-between align-items-center" style="border-top:2px solid #007bff; background:#f8f9fa;">
+            <strong>Total</strong>
+            <strong style="color:#28a745;">₹{{ total }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+  const phoneInput = document.querySelector('input[name="phone"]');
+  const phone = phoneInput.value.trim();
+
+  if (!/^\d{10}$/.test(phone)) {
+    e.preventDefault();
+    alert('Please enter a valid 10-digit mobile number');
+    phoneInput.focus();
+  }
+});
+</script>
+{% endblock %}

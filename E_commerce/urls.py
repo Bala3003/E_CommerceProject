@@ -1,0 +1,32 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('products/', views.products, name='products'),
+    path('categories/', views.categories_list, name='categories'),
+    path('category/<slug:slug>/', views.category_detail, name='category_detail'),
+    path('cart/add/<slug:slug>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart_view, name='cart'),
+    path('cart/update/', views.update_cart, name='update_cart'),
+    path('product/<slug:slug>/', views.product_detail, name='product_detail'),
+    path('products/category/<slug:category_slug>/', views.product_list_by_category, name='products_by_category'),
+    path('orders/', views.orders, name='orders'),
+    path('orderitems/', views.orderitems, name='orderitems'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('checkout/place/', views.place_order, name='place_order'),
+    path('checkout/success/<int:order_id>/', views.checkout_success, name='checkout_success'),
+    path('privacy/', views.privacy, name='privacy'),
+    path('terms/', views.terms, name='terms'),
+    path('invoice/<int:order_id>/', views.download_invoice, name='download_invoice'),
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('profile/', views.profile_view, name='profile'),
+    path('password/change/', views.change_password, name='password_change'),
+    path('search/', views.search_products, name='search_products'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-dashboard/add/', views.add_product, name='add_product'),
+    path('admin-dashboard/edit/<int:pk>/', views.edit_product, name='edit_product'),
+    path('admin-dashboard/delete/<int:pk>/', views.delete_product, name='delete_product'),
+]

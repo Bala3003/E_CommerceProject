@@ -1,0 +1,128 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - Products{% endblock %}
+
+{% block content %}
+<style>
+/* 🎨 Product Card Styling */
+.card {
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  height: 220px;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  background-color: #f8f9fa;
+}
+
+/* ✨ Add to Cart Button */
+.btn-cart {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(255, 153, 0, 0.3);
+}
+.btn-cart:hover {
+  background: linear-gradient(135deg, #ffb300, #ff6600);
+  color: #fff;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 102, 0, 0.5);
+}
+
+/* 👀 View Details Button */
+.btn-view {
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: 500;
+  border: 1px solid #007bff;
+  color: #007bff;
+  transition: all 0.3s ease;
+}
+.btn-view:hover {
+  background-color: #007bff;
+  color: white;
+}
+</style>
+
+<div class="container py-5">
+  <h1 class="text-center mb-4">{{ category.name }}</h1>
+
+  {% if category.description %}
+    <p class="text-center text-muted mb-5">{{ category.description }}</p>
+  {% endif %}
+
+  <div class="row g-4">
+    {% for product in products %}
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          {% else %}
+            <img src="{% static 'images/sample.jpg' %}" class="card-img-top" alt="placeholder">
+          {% endif %}
+
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="text-muted mb-2">₹{{ product.price }}</p>
+
+            <!-- 🛒 Add to Cart form -->
+            <form action="{% url 'add_to_cart' slug=product.slug %}" method="post" class="d-inline-block">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-cart btn-sm">🛒 Add to Cart</button>
+            </form>
+
+            <!-- 👁 View Details -->
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted text-center">No products found in this category.</p>
+    {% endfor %}
+  </div>
+
+  <!-- 📄 Pagination -->
+  {% if products.has_other_pages %}
+  <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if products.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+      {% endif %}
+
+      <li class="page-item disabled"><span class="page-link">
+        Page {{ products.number }} of {{ products.paginator.num_pages }}
+      </span></li>
+
+      {% if products.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}
+

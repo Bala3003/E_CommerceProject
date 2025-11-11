@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Order Placed{% endblock %}
+
+{% block content %}
+<style>
+  /* Page Background */
+  body {
+    background: linear-gradient(135deg, #122b60, #0077b6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  /* Card Container */
+  .success-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 600px;
+    animation: fadeIn 1s ease-out;
+  }
+
+  .success-card h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    animation: pop 1s ease-in-out;
+  }
+
+  .success-card p.lead {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success {
+    background-color: #06d6a0;
+    border: none;
+  }
+
+  .btn-success:hover {
+    background-color: #05c68b;
+    transform: scale(1.05);
+  }
+
+  .btn-primary {
+    background-color: #ffd60a;
+    border: none;
+    color: #122b60;
+  }
+
+  .btn-primary:hover {
+    background-color: #ffcd02;
+    transform: scale(1.05);
+  }
+
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+
+<div class="success-card">
+  <h2>✅ Order Placed Successfully 🎉</h2>
+  <p class="lead">Thank you, <strong>{{ order.full_name }}</strong>! Your order <strong>#{{ order.id }}</strong> has been received.</p>
+
+  <a href="{% url 'download_invoice' order.id %}" class="btn btn-success mt-3">🧧Download Invoice</a>
+
+  <p class="mt-4"><strong>Order Total:</strong> ₹{{ order.total_amount }}</p>
+
+  <h5 class="mt-4">📦 Delivery Details</h5>
+  <p>
+    {{ order.address_line1 }}<br>
+    {% if order.address_line2 %}{{ order.address_line2 }}<br>{% endif %}
+    {{ order.city }}{% if order.state %}, {{ order.state }}{% endif %}<br>
+    {{ order.postal_code }}
+  </p>
+
+  <a href="{% url 'home' %}" class="btn btn-primary mt-3">🏠 Continue Shopping</a>
+</div>
+{% endblock %}
